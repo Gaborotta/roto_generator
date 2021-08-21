@@ -1,0 +1,27 @@
+.main-number {
+  width: 50px;
+  height: 50px;
+  background-color: #d89642;
+  color: #f8fbf0;
+  padding: 0px;
+  font-size: 1.6rem;
+  margin: 10px 10px;
+  text-align: center;
+  line-height: 50px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.bonus-number {
+  width: 50px;
+  height: 50px;
+  background-color: #ee4e73;
+  color: #f8fbf0;
+  padding: 0px;
+  font-size: 1.6rem;
+  margin: 10px 10px;
+  text-align: center;
+  line-height: 50px;
+  border-radius: 50%;
+  display: inline-block;
+}

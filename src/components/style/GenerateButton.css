@@ -1,0 +1,10 @@
+.generateButton {
+  width: 30%;
+  background-color: #282359;
+  color: #f8fbf0;
+  padding: 10px;
+  margin: 10px 10px;
+  box-shadow: 0 0 8 rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  font: normal normal bold 40px/50px UD Digi Kyokasho NK-B;
+}

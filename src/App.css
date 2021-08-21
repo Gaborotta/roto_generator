@@ -1,0 +1,32 @@
+/* App.js */
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: #c88730;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+}
+
+.container {
+  width: 50vw;
+  height: 80vh;
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(20px);
+  box-shadow: 4px 4px 13px 5px rgba(0, 0, 0, 0.25);
+  background-color: #f8fbf0;
+  font: normal normal bold 100px/116px UD Digi Kyokasho NK-B;
+}
+@media only screen and (max-width: 1270px) {
+  .container {
+    width: 80vw;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .container {
+    width: 100vw;
+  }
+}
