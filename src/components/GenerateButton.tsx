@@ -1,4 +1,4 @@
-import { GenerateType } from "../App";
+import { GenerateType } from "../types";
 import "./style/GenerateButton.css";
 
 type GeneratePropType = {

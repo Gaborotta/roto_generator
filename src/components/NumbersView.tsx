@@ -1,4 +1,4 @@
-import { Numbers } from "../App";
+import { Numbers } from "../types";
 import "./style/NumbersView.css";
 
 type NumbersPropType = {

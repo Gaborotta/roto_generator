@@ -1,47 +1,53 @@
 // Import
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { sample } from "underscore";
+
+import {
+  GenerateType,
+  LotoType,
+  Numbers,
+  LotoGenerateDict,
+  SummaryType,
+  PeriodType,
+  GraphData,
+} from "./types";
 
 import Title from "./components/Title";
 import GenerateButton from "./components/GenerateButton";
 import NumbersView from "./components/NumbersView";
 import SelectLotoRadio from "./components/SelectLotoRadio";
 import PlotlyTest from "./components/PlotlyTest";
+import SelectGraphSetting from "./components/SelectGraphSetting";
 
 import db from "./config/firebase-config";
 
 import "./App.css";
 
-// 型宣言
-export type GenerateType = (e: React.FormEvent<HTMLFormElement>) => void;
-export type LotoType = "LOTO6" | "LOTO7" | "MiniLOTO";
-export type Numbers = {
-  type: LotoType;
-  main: number[];
-  bonus: number[];
-};
-export type LotoGenerateDict = {
-  [attr: string]: {
-    nums: number[];
-    main_n: number;
-    bonus_n: number;
-  };
-};
+////////////////////////////////////
+// 定数設定
+///////////////////////////////////
 
-// ロト値設定
 const range = (start: number, end: number) =>
   Array.from({ length: end - start }, (v, k) => k + start);
 const loto_values: LotoGenerateDict = {
   LOTO6: { nums: range(1, 44), main_n: 6, bonus_n: 1 },
   LOTO7: { nums: range(1, 38), main_n: 7, bonus_n: 2 },
-  MiniLOTO: { nums: range(1, 32), main_n: 5, bonus_n: 1 },
+  MINI_LOTO: { nums: range(1, 32), main_n: 5, bonus_n: 1 },
 };
 
+////////////////////////////////////
 // 本体
+///////////////////////////////////
+
 function App() {
+  ////////////////////////////////////////////////////
+  // 共通
+  ////////////////////////////////////////////////////
   const [lotoType, setLotoType] = useState<LotoType>("LOTO6");
 
-  // 関数定義
+  ////////////////////////////////////////////////////
+  // 生成ボタン
+  ////////////////////////////////////////////////////
   const sort_asc = (a: number, b: number) => (a > b ? 1 : -1);
   const generateNumbers = (lotoType: LotoType): Numbers => {
     let loto_set = loto_values[lotoType];
@@ -56,37 +62,101 @@ function App() {
       bonus: bonus.sort(sort_asc),
     };
   };
-
-  // イベント動作定義
   const [numbers, setNumbers] = useState<Numbers>(generateNumbers(lotoType));
   const generate: GenerateType = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setNumbers(generateNumbers(lotoType));
   };
 
-  // firestore 読み込み
-  const getFire = async (): Promise<number> => {
+  ////////////////////////////////////////////////////
+  // firestore 読み込み 集計グラフ表示用
+  ////////////////////////////////////////////////////
+  const [graphSummaryType, setGraphSummaryType] =
+    useState<SummaryType>("triple_num_sum");
+  const [graphPeriod, setGraphPeriod] = useState<PeriodType>("過去 100 回");
+  const [isGraphOK, setGraphOK] = useState<boolean>(true);
+  const [graphTopN] = useState<number>(20);
+  const [graphData, setGraphData] = useState<GraphData>({
+    x_axis: [""],
+    y_axis: [0],
+  });
+
+  // ここでuseEffectを使うとローディング中が実装できそう？
+  const getFire = async (
+    lType: LotoType,
+    sType: SummaryType,
+    pType: PeriodType
+  ) => {
     const snapshot = await db
-      .collection("loto_results")
-      .doc("LOTO6")
-      .collection("results")
-      .doc("第1094回")
+      .collection("loto_count_summary")
+      .doc(lType)
+      .collection(sType)
+      .doc(pType)
       .get();
-    console.log(snapshot.data());
-
-    return 10;
+    const data = snapshot.data();
+    if (data?.x_axis === undefined) {
+      throw new Error(`Fire Error ${lType}, ${pType}, ${sType}`);
+    }
+    const graphData: GraphData = {
+      x_axis: data?.x_axis,
+      y_axis: data?.y_axis,
+    };
+    return graphData;
   };
-  getFire();
 
+  const setFireData = (
+    lType: LotoType,
+    sType: SummaryType,
+    pType: PeriodType
+  ) => {
+    setGraphOK(false);
+    console.log("getFire", isGraphOK);
+    getFire(lType, sType, pType)
+      .then((x) => {
+        setGraphData(x);
+        setGraphOK(true);
+        console.log("getFire Done", isGraphOK);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    setFireData(lotoType, graphSummaryType, graphPeriod);
+  }, []);
+
+  ////////////////////////////////////////////////////
   // 本体
+  ////////////////////////////////////////////////////
   return (
     <div className="wrapper">
       <div className="container">
         <Title />
+
+        {/* 生成 */}
         <GenerateButton generate={generate} />
         <NumbersView numbers={numbers} />
-        <SelectLotoRadio lotoType={lotoType} setLotoType={setLotoType} />
-        <PlotlyTest></PlotlyTest>
+        <SelectLotoRadio
+          lotoType={lotoType}
+          summaryType={graphSummaryType}
+          periodType={graphPeriod}
+          setLotoType={setLotoType}
+          setFireData={setFireData}
+        />
+
+        {/* グラフ表示 */}
+        <SelectGraphSetting
+          lotoType={lotoType}
+          summaryType={graphSummaryType}
+          periodType={graphPeriod}
+          setFireData={setFireData}
+          setGraphSummaryType={setGraphSummaryType}
+          setGraphPeriod={setGraphPeriod}
+        />
+        <PlotlyTest
+          graphData={graphData}
+          graphTopN={graphTopN}
+          isGraphOK={isGraphOK}
+        />
       </div>
     </div>
   );
