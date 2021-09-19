@@ -1,3 +1,6 @@
+# URL
+https://roto6-306206.web.app/
+
 # roto_generator
 
 ロトの数字を生成してくれる
@@ -17,3 +20,4 @@ yarn add firebase@8.10.0 # 最新9.0.0のβ版。これを入れると詰む。
 
 https://code-log.hatenablog.com/entry/2019/03/18/111559
 https://qiita.com/shinhiro/items/9cdc916c5d9149f22167
+
