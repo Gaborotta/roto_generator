@@ -1,5 +1,5 @@
 import { LotoType, SummaryType, PeriodType, periodTypeList } from "../types";
-import "./style/SelectLotoRadio.css";
+import "./style/SelectGraphSetting.css";
 
 type SelectGraphPropsType = {
   lotoType: LotoType;
@@ -32,7 +32,7 @@ const SelectGraphSetting = ({
     <>
       <form>
         {summaryTypeDict.map(({ ja_nm, en_nm }) => (
-          <label className="loto-radio-label" key={en_nm}>
+          <label className="graph-radio-label" key={en_nm}>
             <input
               className="graph-radio"
               type="radio"
@@ -49,19 +49,21 @@ const SelectGraphSetting = ({
       </form>
       <form>
         {periodTypeList.map((ja_nm) => (
-          <label className="loto-radio-label" key={ja_nm}>
-            <input
-              className="graph-radio"
-              type="radio"
-              name="summary_type"
-              checked={periodType === ja_nm}
-              onChange={() => {
-                setGraphPeriod(ja_nm);
-                setFireData(lotoType, summaryType, ja_nm);
-              }}
-            />
-            {ja_nm}
-          </label>
+          <>
+            <label className="graph-radio-label_2" key={ja_nm}>
+              <input
+                className="graph-radio"
+                type="radio"
+                name="summary_type"
+                checked={periodType === ja_nm}
+                onChange={() => {
+                  setGraphPeriod(ja_nm);
+                  setFireData(lotoType, summaryType, ja_nm);
+                }}
+              />
+              {ja_nm}
+            </label>
+          </>
         ))}
       </form>
     </>

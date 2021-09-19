@@ -1,17 +1,20 @@
 /* App.js */
 .wrapper {
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw;
+  height: 180vh; */
   background-color: #c88730;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-size: cover;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* background-size: cover; */
+  padding: 5vh 0;
 }
 
 .container {
-  width: 50vw;
-  height: 120vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80vw;
+  /* height: 150vh; */
   text-align: center;
   padding: 40px 20px;
   border-radius: 15px;
@@ -20,13 +23,17 @@
   background-color: #f8fbf0;
   font: normal normal bold 100px/116px UD Digi Kyokasho NK-B;
 }
-@media only screen and (max-width: 1270px) {
+/* @media only screen and (max-width: 1270px) {
   .container {
     width: 80vw;
   }
-}
-@media only screen and (max-width: 700px) {
+} */
+@media only screen and (max-width: 768px) {
+  .wrapper {
+    padding: 0 0;
+  }
   .container {
     width: 100vw;
+    border-radius: 0px;
   }
 }

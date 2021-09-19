@@ -26,7 +26,7 @@ const createGraph = ({ x_axis, y_axis }: GraphData) => {
   );
 };
 
-const PlotlyTest = ({ graphData, graphTopN, isGraphOK }: GraphPropType) => {
+const SummaryGraph = ({ graphData, graphTopN, isGraphOK }: GraphPropType) => {
   return (
     <div>
       {isGraphOK &&
@@ -43,4 +43,4 @@ const PlotlyTest = ({ graphData, graphTopN, isGraphOK }: GraphPropType) => {
   );
 };
 
-export default PlotlyTest;
+export default SummaryGraph;

@@ -1,0 +1,22 @@
+.graph-radio-label {
+  margin: 12px 8px;
+  font-size: 25px;
+  color: #282359;
+  overflow-wrap: normal;
+  word-break: break-all;
+}
+
+.graph-radio-label_2 {
+  margin: 20px 10px;
+  font-size: 25px;
+  color: #282359;
+  overflow-wrap: normal;
+  word-break: break-all;
+  line-height: 1vh;
+}
+
+.graph-radio {
+  margin: 12px 8px;
+  vertical-align: 7px;
+  line-height: 1vh;
+}

@@ -16,8 +16,9 @@ import Title from "./components/Title";
 import GenerateButton from "./components/GenerateButton";
 import NumbersView from "./components/NumbersView";
 import SelectLotoRadio from "./components/SelectLotoRadio";
-import PlotlyTest from "./components/PlotlyTest";
+import SummaryGraph from "./components/SummaryGraph";
 import SelectGraphSetting from "./components/SelectGraphSetting";
+import GraphTitle from "./components/GraphTitle";
 
 import db from "./config/firebase-config";
 
@@ -75,7 +76,7 @@ function App() {
     useState<SummaryType>("triple_num_sum");
   const [graphPeriod, setGraphPeriod] = useState<PeriodType>("過去 100 回");
   const [isGraphOK, setGraphOK] = useState<boolean>(true);
-  const [graphTopN] = useState<number>(20);
+  const [graphTopN] = useState<number>(50);
   const [graphData, setGraphData] = useState<GraphData>({
     x_axis: [""],
     y_axis: [0],
@@ -133,8 +134,6 @@ function App() {
         <Title />
 
         {/* 生成 */}
-        <GenerateButton generate={generate} />
-        <NumbersView numbers={numbers} />
         <SelectLotoRadio
           lotoType={lotoType}
           summaryType={graphSummaryType}
@@ -142,8 +141,12 @@ function App() {
           setLotoType={setLotoType}
           setFireData={setFireData}
         />
+        <GenerateButton generate={generate} />
+        <NumbersView numbers={numbers} />
 
         {/* グラフ表示 */}
+        <br />
+        <GraphTitle />
         <SelectGraphSetting
           lotoType={lotoType}
           summaryType={graphSummaryType}
@@ -152,7 +155,7 @@ function App() {
           setGraphSummaryType={setGraphSummaryType}
           setGraphPeriod={setGraphPeriod}
         />
-        <PlotlyTest
+        <SummaryGraph
           graphData={graphData}
           graphTopN={graphTopN}
           isGraphOK={isGraphOK}
